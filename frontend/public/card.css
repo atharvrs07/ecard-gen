@@ -415,6 +415,7 @@ body[data-theme="dark"] {
     gap: 8px;
     font-size: 13px;
     font-weight: 600;
+    min-width: 0;
 }
 
 .footer {
@@ -473,4 +474,21 @@ body[data-theme="dark"] {
     .wrapper { width: min(100%, calc(100% - 18px)); }
     .service-image { width: 136px; height: 136px; }
     .intro-head { grid-template-columns: 1fr; gap: 10px; }
+
+    .contact-actions {
+        min-width: 0;
+    }
+
+    .contact-only-card,
+    .social-only-card {
+        min-width: 0;
+    }
+
+    .social-list {
+        grid-template-columns: 1fr;
+    }
+
+    .social-card {
+        width: 100%;
+    }
 }
