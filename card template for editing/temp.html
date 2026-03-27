@@ -9,69 +9,184 @@
 </head>
 <body>
     <div class="page">
-        <main class="wrapper">
-            <section class="hero">
-                <h1 class="name">Super Duper Long Name</h1>
-                <div class="occupation-pill">Super Long Occupation</div>
-            </section>
+        <!-- QR encodes CARD_PAGE_URL in script below — set your live card URL there -->
+        <section class="qr-strip card-box" aria-label="QR code for this card">
+            <div class="qr-strip-inner">
+                <div class="qr-strip-copy">
+                    <p class="kicker">Scan to open</p>
+                    <p class="qr-strip-hint">Scan this code with your phone camera to open this digital card.</p>
+                </div>
+                <div class="qr-strip-visual">
+                    <img id="qrImage" class="qr-image" alt="QR code — opens this digital card" width="160" height="160" decoding="async">
+                </div>
+                <div class="qr-strip-actions">
+                    <button type="button" id="qrDownload" class="btn btn-muted qr-action-btn">
+                        <i class="fa-solid fa-download"></i><span>Download QR</span>
+                    </button>
+                    <button type="button" id="qrShare" class="btn btn-primary qr-action-btn">
+                        <i class="fa-solid fa-share-from-square"></i><span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-            <section class="content-grid">
-                <article class="card-box description">
-                    <h2>What do I do?</h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur, voluptas quia impedit velit exercitationem deserunt suscipit officia ut nemo repellat illo laboriosam eum? Tempora, veniam natus sint quod illum dolorem? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis doloribus ipsum ea quas quos harum labore hic qui ex. Quam tempora quae ut soluta iste. Odio minima nihil eius temporibus!
+        <header class="topbar">
+            <div class="topbar-inner">
+                <p class="brand">Atharv Raj Sharma</p>
+                <nav class="top-nav">
+                    <a href="#company">Company</a>
+                    <a href="#services">Services</a>
+                    <a href="#achievements">Achievements</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch color theme">
+                    <i class="fa-solid fa-moon"></i>
+                    <span>Dark</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="wrapper">
+            <section class="hero-layout">
+                <article class="card-box promo">
+                    <p class="kicker">Now shipping</p>
+                    <h2>Premium Digital Visiting Card</h2>
+                    <p class="promo-copy">
+                        Give clients one compact page with your profile, services, social proof,
+                        and quick contact options. Built for professionals who want to present
+                        their work with clarity, trust, and premium visual quality in one link.
+                        It helps people quickly understand what you do, what services you offer,
+                        and how they can contact you without friction.
                     </p>
+                    <button type="button" id="promoReadMoreBtn" class="promo-read-more-btn">Read more</button>
                 </article>
 
-                <div class="center-column">
-                    <article class="card-box achievements">
-                        <h2>My Achievements</h2>
-                        <ul>
-                            <li>Example of A SUPER DUPER LONG Achievement 1</li>
-                            <li>Example of A SUPER DUPER LONG Achievement 2</li>
-                            <li>Example of A SUPER DUPER LONG Achievement 3</li>
-                        </ul>
-                    </article>
+                <article class="card-box intro">
+                    <div class="intro-head">
+                        <img class="profile-image" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Atharv Raj Sharma profile picture">
+                        <div class="intro-head-text">
+                            <p class="kicker">AI Developer</p>
+                            <h1 class="name">Atharv Raj Sharma</h1>
+                            <h2 class="tagline">Crafting software you need in minutes</h2>
+                        </div>
+                    </div>
+                    <p class="intro-copy">
+                        I build real world applications with speed, clean UI, and strong execution.
+                        This layout is designed to look full, premium, and conversion friendly. I focus on building
+                        polished digital products with strong performance, clean architecture, and practical outcomes.
+                        From ideation to deployment, I help turn concepts into reliable web solutions that users enjoy.
+                    </p>
+                    <button type="button" id="introReadMoreBtn" class="intro-read-more-btn">Read more</button>
+                    <div class="cta-row">
+                        <a class="btn btn-primary" href="#services">View Services</a>
+                        <a class="btn btn-muted" href="#contact">Let's Connect</a>
+                    </div>
+                </article>
+            </section>
 
-                    <article class="card-box contact">
-                        <h2>Contact</h2>
-                        <div class="contact-actions">
-                            <a class="btn" href="mailto:example@mail.com">Click here to mail me</a>
-                            <a class="btn" href="tel:+187342473294">Click here to call me</a>
+            <section class="section company-achievements-row">
+                <div id="company" class="company-pane">
+                    <p class="kicker">My company</p>
+                    <h2 class="section-title">About company</h2>
+                    <article class="card-box company-card compact-company-card">
+                        <img class="company-logo" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?auto=format&fit=crop&w=200&q=80" alt="Company logo">
+                        <div class="company-content">
+                            <h3>XevoNet Labs</h3>
+                            <p>
+                                XevoNet Labs builds modern web apps, automation systems,
+                                and growth tools for businesses.
+                            </p>
+                            <a class="company-link" href="https://example.com" target="_blank" rel="noopener noreferrer">
+                                Visit company website <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
                         </div>
                     </article>
                 </div>
 
-             <article class="card-box socials">
-                    <h2>My Social Links</h2>
+                <div id="achievements" class="achievements-pane achievements-section">
+                    <p class="kicker">Achievements</p>
+                    <h2 class="section-title">Here's what I have done so far.</h2>
+                    <article class="card-box achievements-single-card">
+                        <ul class="achievements-list" id="achievementsList">
+                            <li>Built 100+ high quality websites and web apps.</li>
+                            <li>Helped clients launch products in record time.</li>
+                            <li>Maintained strong repeat client satisfaction and referrals.</li>
+                            <li>Delivered scalable dashboard systems used by growing teams.</li>
+                            <li>Improved launch velocity by streamlining design-to-dev workflow.</li>
+                            <li>Built automation pipelines that reduced repetitive manual work.</li>
+                        </ul>
+                        <button type="button" id="achievementsReadMoreBtn" class="achievements-read-more-btn" aria-expanded="false">Read more</button>
+                    </article>
+                </div>
+            </section>
 
-                    <div class="social-list">
-                        <a class="social-card" href="https://youtube.com" target="_blank">
-                            <i class="fa-brands fa-youtube"></i>
-                            <span>My YouTube</span>
-                        </a>
+            <section id="services" class="section">
+                <p class="kicker">Services offered</p>
+                <h2 class="section-title">Choose a service tab</h2>
 
-                        <a class="social-card" href="https://instagram.com" target="_blank">
-                            <i class="fa-brands fa-instagram"></i>
-                            <span>My Instagram</span>
-                        </a>
+                <div class="service-tabs-row" id="serviceTabs">
+                    <button class="service-tab-btn active" type="button" data-tab="service-1">Website Development</button>
+                    <button class="service-tab-btn" type="button" data-tab="service-2">Web App Development</button>
+                    <button class="service-tab-btn" type="button" data-tab="service-3">Automation and Integrations</button>
+                </div>
 
-                        <a class="social-card" href="https://x.com" target="_blank">
-                            <i class="fa-brands fa-square-x-twitter"></i>
-                            <span>My Twitter</span>
-                        </a>
+                <div class="service-panels" id="servicePanels">
+                    <article class="card-box service-panel active" data-panel="service-1">
+                        <div class="service-panel-content">
+                            <div class="service-panel-text">
+                                <h3>Website Development</h3>
+                                <p>Business websites, portfolio websites, and landing pages with modern UI and responsive design.</p>
+                                <a href="https://example.com/website-service" target="_blank" rel="noopener noreferrer">Service Link <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <img class="service-image" src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=400&q=80" alt="Website Development service image">
+                        </div>
+                    </article>
+                    <article class="card-box service-panel" data-panel="service-2">
+                        <div class="service-panel-content">
+                            <div class="service-panel-text">
+                                <h3>Web App Development</h3>
+                                <p>Custom dashboards, admin systems, and SaaS products with secure backend and polished UX.</p>
+                                <a href="https://example.com/webapp-service" target="_blank" rel="noopener noreferrer">Service Link <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <img class="service-image" src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=400&q=80" alt="Web App Development service image">
+                        </div>
+                    </article>
+                    <article class="card-box service-panel" data-panel="service-3">
+                        <div class="service-panel-content">
+                            <div class="service-panel-text">
+                                <h3>Automation and Integrations</h3>
+                                <p>Automate repetitive workflows, connect APIs, and optimize internal operations for speed.</p>
+                                <a href="https://example.com/automation-service" target="_blank" rel="noopener noreferrer">Service Link <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                            <img class="service-image" src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80" alt="Automation and Integrations service image">
+                        </div>
+                    </article>
+                </div>
+            </section>
 
-                        <a class="social-card" href="https://linkedin.com" target="_blank">
-                            <i class="fa-brands fa-linkedin"></i>
-                            <span>My LinkedIn</span>
-                        </a>
+            <section id="contact" class="section">
+                <div class="contact-social-grid">
+                    <article class="card-box contact-only-card">
+                        <p class="kicker">Contact</p>
+                        <h2 class="section-title">Let's connect.</h2>
+                        <div class="contact-actions">
+                            <a class="btn btn-primary" href="mailto:example@mail.com"><i class="fa-solid fa-envelope"></i><span>Email me</span></a>
+                            <a class="btn btn-muted" href="tel:+187342473294"><i class="fa-solid fa-phone"></i><span>Call me</span></a>
+                        </div>
+                    </article>
 
-                        <a class="social-card" href="https://facebook.com" target="_blank">
-                            <i class="fa-brands fa-facebook"></i>
-                            <span>My FaceBook</span>
-                        </a>
-                    </div>
-                </article>
+                    <article class="card-box social-only-card">
+                        <p class="kicker">Socials</p>
+                        <h2 class="section-title">Follow me online</h2>
+                        <div class="social-list">
+                            <a class="social-card" href="https://youtube.com" target="_blank"><i class="fa-brands fa-youtube"></i><span>YouTube</span></a>
+                            <a class="social-card" href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                            <a class="social-card" href="https://x.com" target="_blank"><i class="fa-brands fa-square-x-twitter"></i><span>X</span></a>
+                            <a class="social-card" href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i><span>LinkedIn</span></a>
+                            <a class="social-card" href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
+                        </div>
+                    </article>
+                </div>
             </section>
         </main>
 
@@ -79,5 +194,189 @@
             <div class="footer-title">Powered By XevoNet</div>
         </footer>
     </div>
+
+    <script>
+        (function () {
+            /** Replace with your real deployed card URL (same URL visitors should land on). */
+            const CARD_PAGE_URL = "https://your-domain.com/card/your-slug";
+            const CARD_OWNER_NAME = "Atharv Raj Sharma";
+
+            function loadQrLibrary(callback) {
+                if (typeof QRCode !== "undefined") {
+                    callback();
+                    return;
+                }
+                const s = document.createElement("script");
+                s.src = "https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js";
+                s.onload = callback;
+                s.onerror = function () {
+                    const img = document.getElementById("qrImage");
+                    if (img) {
+                        img.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(CARD_PAGE_URL);
+                        img.onload = function () {
+                            try {
+                                const c = document.createElement("canvas");
+                                const ctx = c.getContext("2d");
+                                c.width = img.naturalWidth;
+                                c.height = img.naturalHeight;
+                                ctx.drawImage(img, 0, 0);
+                                window.__qrPngDataUrl = c.toDataURL("image/png");
+                            } catch (e) {
+                                window.__qrPngDataUrl = "";
+                            }
+                        };
+                    }
+                };
+                document.head.appendChild(s);
+            }
+
+            loadQrLibrary(function () {
+                const img = document.getElementById("qrImage");
+                if (!img || typeof QRCode === "undefined") return;
+                QRCode.toDataURL(CARD_PAGE_URL, { width: 200, margin: 2, errorCorrectionLevel: "M" }, function (err, dataUrl) {
+                    if (err || !dataUrl) return;
+                    img.src = dataUrl;
+                    window.__qrPngDataUrl = dataUrl;
+                });
+            });
+
+            const qrDownload = document.getElementById("qrDownload");
+            const qrShare = document.getElementById("qrShare");
+            if (qrDownload) {
+                qrDownload.addEventListener("click", function () {
+                    const dataUrl = window.__qrPngDataUrl;
+                    if (!dataUrl) return;
+                    const a = document.createElement("a");
+                    a.href = dataUrl;
+                    a.download = "digital-card-qr.png";
+                    a.rel = "noopener";
+                    a.click();
+                });
+            }
+            if (qrShare) {
+                qrShare.addEventListener("click", async function () {
+                    const url = CARD_PAGE_URL;
+                    const shareText = "Digital visiting card — " + CARD_OWNER_NAME;
+                    if (navigator.share) {
+                        try {
+                            const dataUrl = window.__qrPngDataUrl;
+                            if (dataUrl && navigator.canShare) {
+                                const res = await fetch(dataUrl);
+                                const blob = await res.blob();
+                                const file = new File([blob], "digital-card-qr.png", { type: "image/png" });
+                                if (navigator.canShare({ files: [file] })) {
+                                    await navigator.share({ title: CARD_OWNER_NAME, text: shareText, url, files: [file] });
+                                    return;
+                                }
+                            }
+                            await navigator.share({ title: CARD_OWNER_NAME, text: shareText, url });
+                        } catch (e) {
+                            if (e && e.name !== "AbortError") {
+                                try {
+                                    await navigator.clipboard.writeText(url);
+                                    alert("Card link copied to clipboard.");
+                                } catch (err2) {
+                                    prompt("Copy this link:", url);
+                                }
+                            }
+                        }
+                    } else {
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            alert("Card link copied to clipboard.");
+                        } catch (e) {
+                            prompt("Copy this link:", url);
+                        }
+                    }
+                });
+            }
+
+            const storageKey = "ecard-template-theme";
+            const body = document.body;
+            const themeToggle = document.getElementById("themeToggle");
+            const icon = themeToggle ? themeToggle.querySelector("i") : null;
+            const label = themeToggle ? themeToggle.querySelector("span") : null;
+
+            function applyTheme(theme) {
+                body.setAttribute("data-theme", theme);
+                if (!icon || !label) return;
+                if (theme === "dark") {
+                    icon.className = "fa-solid fa-sun";
+                    label.textContent = "Light";
+                } else {
+                    icon.className = "fa-solid fa-moon";
+                    label.textContent = "Dark";
+                }
+            }
+
+            const savedTheme = localStorage.getItem(storageKey);
+            const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            applyTheme(savedTheme || (systemPrefersDark ? "dark" : "light"));
+
+            if (themeToggle) {
+                themeToggle.addEventListener("click", function () {
+                    const nextTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+                    applyTheme(nextTheme);
+                    localStorage.setItem(storageKey, nextTheme);
+                });
+            }
+
+            const promoCopy = document.querySelector(".promo-copy");
+            const promoReadMoreBtn = document.getElementById("promoReadMoreBtn");
+            if (promoCopy && promoReadMoreBtn) {
+                promoReadMoreBtn.addEventListener("click", function () {
+                    promoCopy.classList.toggle("expanded");
+                    promoReadMoreBtn.textContent = promoCopy.classList.contains("expanded") ? "Show less" : "Read more";
+                });
+            }
+
+            const introCopy = document.querySelector(".intro-copy");
+            const introReadMoreBtn = document.getElementById("introReadMoreBtn");
+            if (introCopy && introReadMoreBtn) {
+                introReadMoreBtn.addEventListener("click", function () {
+                    introCopy.classList.toggle("expanded");
+                    introReadMoreBtn.textContent = introCopy.classList.contains("expanded") ? "Show less" : "Read more";
+                });
+            }
+
+            const achievementSection = document.querySelector(".achievements-section");
+            const achievementItems = Array.from(document.querySelectorAll("#achievementsList li"));
+            const hasAchievementText = achievementItems.some((item) => item.textContent.trim().length > 0);
+            if (!hasAchievementText && achievementSection) achievementSection.style.display = "none";
+
+            const achievementsList = document.getElementById("achievementsList");
+            const achievementsReadMoreBtn = document.getElementById("achievementsReadMoreBtn");
+            const achievementsCard = document.querySelector(".achievements-single-card");
+            if (achievementsList && achievementsReadMoreBtn && achievementsCard) {
+                const needsToggle = achievementsList.scrollHeight > achievementsList.clientHeight + 4;
+                if (!needsToggle) {
+                    achievementsReadMoreBtn.style.display = "none";
+                }
+                achievementsReadMoreBtn.addEventListener("click", function () {
+                    const isExpanded = achievementsList.classList.toggle("expanded");
+                    achievementsCard.classList.toggle("expanded", isExpanded);
+                    achievementsReadMoreBtn.textContent = isExpanded ? "Show less" : "Read more";
+                    achievementsReadMoreBtn.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+                });
+            }
+
+            const serviceTabs = document.getElementById("serviceTabs");
+            const servicePanels = document.getElementById("servicePanels");
+            if (serviceTabs && servicePanels) {
+                const tabs = Array.from(serviceTabs.querySelectorAll(".service-tab-btn"));
+                const panels = Array.from(servicePanels.querySelectorAll(".service-panel"));
+                tabs.forEach((tab) => {
+                    tab.addEventListener("click", () => {
+                        const target = tab.getAttribute("data-tab");
+                        tabs.forEach((button) => button.classList.remove("active"));
+                        panels.forEach((panel) => panel.classList.remove("active"));
+                        tab.classList.add("active");
+                        const activePanel = servicePanels.querySelector(`[data-panel="${target}"]`);
+                        if (activePanel) activePanel.classList.add("active");
+                    });
+                });
+            }
+        })();
+    </script>
 </body>
 </html>

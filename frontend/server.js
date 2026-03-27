@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "25mb" }));
 app.use(express.static("public"));
 
 app.set("view engine", "ejs");
@@ -53,7 +53,11 @@ function normalizeUrl(url) {
 
     url = url.trim();
 
-    if (url.startsWith("http://") || url.startsWith("https://")) {
+    if (
+        url.startsWith("http://") ||
+        url.startsWith("https://") ||
+        url.startsWith("data:image/")
+    ) {
         return url;
     }
 
@@ -67,6 +71,28 @@ function verifyRazorpaySignature(orderId, paymentId, signature) {
         .digest("hex");
 
     return generatedSignature === signature;
+}
+
+function getBaseUrl(req) {
+    const configuredBaseUrl = (process.env.BASE_URL || "").trim();
+    const isLocalConfiguredUrl = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(configuredBaseUrl);
+
+    if (configuredBaseUrl && !isLocalConfiguredUrl) {
+        return configuredBaseUrl;
+    }
+
+    const forwardedProto = req.headers["x-forwarded-proto"];
+    const protocol = (Array.isArray(forwardedProto) ? forwardedProto[0] : forwardedProto || req.protocol || "http")
+        .toString()
+        .split(",")[0]
+        .trim();
+    const host = req.get("host");
+
+    if (host) {
+        return `${protocol}://${host}`;
+    }
+
+    return configuredBaseUrl || `http://localhost:${PORT}`;
 }
 
 // 🔥 MongoDB
@@ -153,6 +179,33 @@ app.post("/verify-payment", async (req, res) => {
         userData.x = normalizeUrl(userData.x);
         userData.linkedin = normalizeUrl(userData.linkedin);
         userData.facebook = normalizeUrl(userData.facebook);
+        userData.pinterest = normalizeUrl(userData.pinterest);
+        userData.customSocial1Url = normalizeUrl(userData.customSocial1Url);
+        userData.customSocial2Url = normalizeUrl(userData.customSocial2Url);
+        userData.customSocial3Url = normalizeUrl(userData.customSocial3Url);
+        userData.profileImage = normalizeUrl(userData.profileImage);
+        userData.companyWebsite = normalizeUrl(userData.companyWebsite);
+        userData.companyLogo = normalizeUrl(userData.companyLogo);
+        userData.service1Link = normalizeUrl(userData.service1Link);
+        userData.service1Image = normalizeUrl(userData.service1Image);
+        userData.service2Link = normalizeUrl(userData.service2Link);
+        userData.service2Image = normalizeUrl(userData.service2Image);
+        userData.service3Link = normalizeUrl(userData.service3Link);
+        userData.service3Image = normalizeUrl(userData.service3Image);
+        userData.service4Link = normalizeUrl(userData.service4Link);
+        userData.service4Image = normalizeUrl(userData.service4Image);
+        userData.service5Link = normalizeUrl(userData.service5Link);
+        userData.service5Image = normalizeUrl(userData.service5Image);
+        userData.service6Link = normalizeUrl(userData.service6Link);
+        userData.service6Image = normalizeUrl(userData.service6Image);
+        userData.service7Link = normalizeUrl(userData.service7Link);
+        userData.service7Image = normalizeUrl(userData.service7Image);
+        userData.service8Link = normalizeUrl(userData.service8Link);
+        userData.service8Image = normalizeUrl(userData.service8Image);
+        userData.service9Link = normalizeUrl(userData.service9Link);
+        userData.service9Image = normalizeUrl(userData.service9Image);
+        userData.service10Link = normalizeUrl(userData.service10Link);
+        userData.service10Image = normalizeUrl(userData.service10Image);
 
         // 🔥 Unique slug
         let slug = createSlug(userData.name);
@@ -170,9 +223,72 @@ app.post("/verify-payment", async (req, res) => {
             slug,
             occupation: userData.occupation,
             description: userData.description,
+            brandName: userData.brandName,
+            nowShippingKicker: userData.nowShippingKicker,
+            nowShippingTitle: userData.nowShippingTitle,
+            nowShippingDescription: userData.nowShippingDescription,
+            heroRoleLabel: userData.heroRoleLabel,
+            heroTagline: userData.heroTagline,
+            heroDescription: userData.heroDescription,
+            companySectionTitle: userData.companySectionTitle,
+            servicesSectionTitle: userData.servicesSectionTitle,
+            servicesSectionSubtitle: userData.servicesSectionSubtitle,
+            achievementsSectionTitle: userData.achievementsSectionTitle,
+            achievementsList: userData.achievementsList,
+            contactSectionTitle: userData.contactSectionTitle,
+            contactSectionSubtitle: userData.contactSectionSubtitle,
+            contactEmailLabel: userData.contactEmailLabel,
+            contactPhoneLabel: userData.contactPhoneLabel,
+            socialSectionTitle: userData.socialSectionTitle,
+            socialSectionSubtitle: userData.socialSectionSubtitle,
             achievement1: userData.achievement1,
             achievement2: userData.achievement2,
             achievement3: userData.achievement3,
+            profileImage: userData.profileImage,
+            companyName: userData.companyName,
+            companyDescription: userData.companyDescription,
+            companyWebsite: userData.companyWebsite,
+            companyLogo: userData.companyLogo,
+            service1Title: userData.service1Title,
+            service1Description: userData.service1Description,
+            service1Link: userData.service1Link,
+            service1Image: userData.service1Image,
+            service2Title: userData.service2Title,
+            service2Description: userData.service2Description,
+            service2Link: userData.service2Link,
+            service2Image: userData.service2Image,
+            service3Title: userData.service3Title,
+            service3Description: userData.service3Description,
+            service3Link: userData.service3Link,
+            service3Image: userData.service3Image,
+            service4Title: userData.service4Title,
+            service4Description: userData.service4Description,
+            service4Link: userData.service4Link,
+            service4Image: userData.service4Image,
+            service5Title: userData.service5Title,
+            service5Description: userData.service5Description,
+            service5Link: userData.service5Link,
+            service5Image: userData.service5Image,
+            service6Title: userData.service6Title,
+            service6Description: userData.service6Description,
+            service6Link: userData.service6Link,
+            service6Image: userData.service6Image,
+            service7Title: userData.service7Title,
+            service7Description: userData.service7Description,
+            service7Link: userData.service7Link,
+            service7Image: userData.service7Image,
+            service8Title: userData.service8Title,
+            service8Description: userData.service8Description,
+            service8Link: userData.service8Link,
+            service8Image: userData.service8Image,
+            service9Title: userData.service9Title,
+            service9Description: userData.service9Description,
+            service9Link: userData.service9Link,
+            service9Image: userData.service9Image,
+            service10Title: userData.service10Title,
+            service10Description: userData.service10Description,
+            service10Link: userData.service10Link,
+            service10Image: userData.service10Image,
             businessEmail: userData.businessEmail,
             personalEmail: userData.personalEmail,
             phone: userData.phone,
@@ -180,10 +296,18 @@ app.post("/verify-payment", async (req, res) => {
             instagram: userData.instagram,
             x: userData.x,
             linkedin: userData.linkedin,
-            facebook: userData.facebook
+            facebook: userData.facebook,
+            pinterest: userData.pinterest,
+            customSocial1Title: userData.customSocial1Title,
+            customSocial1Url: userData.customSocial1Url,
+            customSocial2Title: userData.customSocial2Title,
+            customSocial2Url: userData.customSocial2Url,
+            customSocial3Title: userData.customSocial3Title,
+            customSocial3Url: userData.customSocial3Url
         });
 
-        const cardLink = `${BASE_URL}/card/${slug}`;
+        const baseUrl = getBaseUrl(req);
+        const cardLink = `${baseUrl}/card/${slug}`;
 
         // 📧 Send Email
         await transporter.sendMail({
@@ -225,7 +349,8 @@ app.get("/card/:username", async (req, res) => {
             return res.status(404).send("Card not found");
         }
 
-        res.render("card", { user });
+        const cardUrl = `${getBaseUrl(req)}/card/${user.slug}`;
+        res.render("card", { user, cardUrl });
 
     } catch (error) {
         console.error("Error fetching card:", error.message);

@@ -8,94 +8,396 @@
     <title><%= user.name %></title>
 </head>
 <body>
-    <div class="page">
-        <main class="wrapper">
-            <section class="hero">
-                <h1 class="name"><%= user.name %></h1>
-                <div class="occupation-pill"><%= user.occupation %></div>
-            </section>
+    <%
+        const services = [];
+        for (let i = 1; i <= 10; i++) {
+            const title = user[`service${i}Title`];
+            const description = user[`service${i}Description`];
+            const link = user[`service${i}Link`];
+            const image = user[`service${i}Image`];
+            if (title || description || link || image) {
+                services.push({
+                    key: `service-${i}`,
+                    title,
+                    description,
+                    link,
+                    image,
+                    fallbackTitle: `Service ${i}`,
+                    fallbackDescription: "Professional service tailored for your business goals."
+                });
+            }
+        }
 
-            <section class="content-grid">
-                <article class="card-box description">
-                    <h2>What do I do?</h2>
-                    <p><%= user.description %></p>
+        const achievementsRaw = (user.achievementsList || "").trim();
+        const achievementsFromList = achievementsRaw ? achievementsRaw.split(/\r?\n/).map((line) => line.trim()).filter(Boolean) : [];
+        const achievementsLegacy = [user.achievement1, user.achievement2, user.achievement3].map((item) => (item || "").trim()).filter(Boolean);
+        const achievements = achievementsFromList.length ? achievementsFromList : achievementsLegacy;
+        const hasCompanyData = [user.companyName, user.companyDescription, user.companyWebsite, user.companyLogo]
+            .some((item) => (item || "").trim());
+        const customSocialLinks = [
+            { title: user.customSocial1Title, url: user.customSocial1Url },
+            { title: user.customSocial2Title, url: user.customSocial2Url },
+            { title: user.customSocial3Title, url: user.customSocial3Url }
+        ].filter((item) => item.title && item.url);
+        const hasSocialData = user.youtube || user.instagram || user.x || user.linkedin || user.facebook || user.pinterest || customSocialLinks.length;
+    %>
+    <div class="page">
+        <section class="qr-strip card-box" aria-label="QR code for this card">
+            <div class="qr-strip-inner">
+                <div class="qr-strip-copy">
+                    <p class="section-kicker">Scan to open</p>
+                    <p class="qr-strip-hint">Scan this code with your phone camera to open this digital card.</p>
+                </div>
+                <div class="qr-strip-visual">
+                    <img id="qrImage" class="qr-image" alt="QR code — opens this digital card" width="160" height="160" decoding="async">
+                </div>
+                <div class="qr-strip-actions">
+                    <button type="button" id="qrDownload" class="btn secondary qr-action-btn">
+                        <i class="fa-solid fa-download"></i><span>Download QR</span>
+                    </button>
+                    <button type="button" id="qrShare" class="btn primary qr-action-btn">
+                        <i class="fa-solid fa-share-from-square"></i><span>Share</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <header class="topbar">
+            <div class="topbar-inner">
+                <p class="brand"><%= user.brandName || user.name %></p>
+                <nav class="top-nav">
+                    <a href="#company">Company</a>
+                    <% if (services.length) { %><a href="#services">Services</a><% } %>
+                    <a href="#achievements">Achievements</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch color theme">
+                    <i class="fa-solid fa-moon"></i>
+                    <span>Dark</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="wrapper">
+            <section class="hero-panel">
+                <article class="card-box promo-card">
+                    <p class="section-kicker"><%= user.nowShippingKicker || "Now shipping" %></p>
+                    <h2><%= user.nowShippingTitle || "Professional Presence" %></h2>
+                    <p class="promo-copy" id="promoCopy"><%= user.nowShippingDescription || "Create trust at first glance with one premium page that highlights what you do best and how to reach you. Add your services, company details, achievements, contact buttons, and social proof in one place for quick sharing." %></p>
+                    <button type="button" class="read-more-btn" id="promoReadMoreBtn" aria-expanded="false">Read more</button>
                 </article>
 
-                <div class="center-column">
-                    <article class="card-box achievements">
-                        <h2>My Achievements</h2>
-                        <ul>
-                            <% if (user.achievement1) { %>
-                                <li><%= user.achievement1 %></li>
-                            <% } %>
-
-                            <% if (user.achievement2) { %>
-                                <li><%= user.achievement2 %></li>
-                            <% } %>
-
-                            <% if (user.achievement3) { %>
-                                <li><%= user.achievement3 %></li>
-                            <% } %>
-                        </ul>
-                    </article>
-
-                    <article class="card-box contact">
-                        <h2>Contact</h2>
-                        <div class="contact-actions">
-                            <a class="btn" href="mailto:<%= user.businessEmail %>">Click here to mail me</a>
-                            <a class="btn" href="tel:<%= user.phone %>">Click here to call me</a>
+                <article class="hero-content">
+                    <div class="intro-head">
+                        <% if (user.profileImage) { %>
+                            <img class="profile-image" src="<%= user.profileImage %>" alt="<%= user.name %> profile picture">
+                        <% } else { %>
+                            <div class="avatar-badge" aria-hidden="true">
+                                <%= user.name ? user.name.trim().charAt(0).toUpperCase() : "U" %>
+                            </div>
+                        <% } %>
+                        <div class="intro-head-copy">
+                            <p class="hero-label"><%= user.heroRoleLabel || user.occupation || "Professional" %></p>
+                            <h1 class="name"><%= user.name %></h1>
+                            <p class="hero-tagline"><%= user.heroTagline || user.occupation || "Helping brands grow with clarity and speed" %></p>
                         </div>
-                    </article>
-                </div>
-
-                <% if (user.youtube || user.instagram || user.x || user.linkedin || user.facebook) { %>
-                <article class="card-box socials">
-                    <h2>My Social Links</h2>
-
-                    <div class="social-list">
-                        <% if (user.youtube) { %>
-                            <a class="social-card" href="<%= user.youtube %>" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-youtube"></i>
-                                <span>My YouTube</span>
-                            </a>
-                        <% } %>
-
-                        <% if (user.instagram) { %>
-                            <a class="social-card" href="<%= user.instagram %>" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-instagram"></i>
-                                <span>My Instagram</span>
-                            </a>
-                        <% } %>
-
-                        <% if (user.x) { %>
-                            <a class="social-card" href="<%= user.x %>" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-square-x-twitter"></i>
-                                <span>My Twitter</span>
-                            </a>
-                        <% } %>
-
-                        <% if (user.linkedin) { %>
-                            <a class="social-card" href="<%= user.linkedin %>" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-linkedin"></i>
-                                <span>My LinkedIn</span>
-                            </a>
-                        <% } %>
-
-                        <% if (user.facebook) { %>
-                            <a class="social-card" href="<%= user.facebook %>" target="_blank" rel="noopener noreferrer">
-                                <i class="fa-brands fa-facebook"></i>
-                                <span>My FaceBook</span>
-                            </a>
-                        <% } %>
+                    </div>
+                    <p class="hero-description intro-copy" id="introCopy"><%= user.heroDescription || user.description %></p>
+                    <button type="button" class="read-more-btn" id="introReadMoreBtn" aria-expanded="false">Read more</button>
+                    <div class="hero-actions">
+                        <% if (services.length) { %><a class="btn primary" href="#services">View Services</a><% } %>
+                        <a class="btn secondary" href="#contact">Let's Connect</a>
                     </div>
                 </article>
-                <% } %>
+            </section>
+
+            <% if (services.length) { %>
+                <section id="services" class="section-block">
+                    <p class="section-kicker">Services Offered</p>
+                    <h2 class="section-title">What I can help you with</h2>
+                    <div class="services-tabs">
+                        <div class="services-tabs-row" id="servicesTabs">
+                            <% services.forEach((service, index) => { %>
+                                <button class="service-tab-btn <%= index === 0 ? 'active' : '' %>" data-tab="<%= service.key %>" type="button"><%= service.title || service.fallbackTitle %></button>
+                            <% }) %>
+                        </div>
+
+                        <div class="services-tab-panels" id="servicesPanels">
+                            <% services.forEach((service, index) => { %>
+                                <article class="card-box service-tab-panel <%= index === 0 ? 'active' : '' %>" data-panel="<%= service.key %>">
+                                    <div class="service-panel-content">
+                                        <div class="service-panel-text">
+                                            <h3><%= service.title || service.fallbackTitle %></h3>
+                                            <p><%= service.description || service.fallbackDescription %></p>
+                                            <% if (service.link) { %>
+                                                <a class="inline-link" href="<%= service.link %>" target="_blank" rel="noopener noreferrer">Open service link <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                            <% } %>
+                                        </div>
+                                        <% if (service.image) { %>
+                                            <img class="service-image" src="<%= service.image %>" alt="<%= service.title || service.fallbackTitle %> image">
+                                        <% } %>
+                                    </div>
+                                </article>
+                            <% }) %>
+                        </div>
+                    </div>
+                </section>
+            <% } %>
+
+            <% if (hasCompanyData || achievements.length) { %>
+                <section class="section-block company-achievements-row <%= hasCompanyData && achievements.length ? 'has-both' : 'single-pane' %>">
+                    <% if (hasCompanyData) { %>
+                        <article id="company" class="card-box company-pane">
+                            <p class="section-kicker"><%= user.companySectionTitle || "My Company" %></p>
+                            <div class="company-card">
+                                <% if (user.companyLogo) { %>
+                                    <img class="company-logo" src="<%= user.companyLogo %>" alt="<%= user.companyName || 'Company' %> logo">
+                                <% } %>
+                                <div class="company-content">
+                                    <h3><%= user.companyName || "My Company" %></h3>
+                                    <p><%= user.companyDescription || "We build high quality solutions focused on business growth and long term value." %></p>
+                                    <% if (user.companyWebsite) { %>
+                                        <a class="inline-link" href="<%= user.companyWebsite %>" target="_blank" rel="noopener noreferrer">Visit company website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </article>
+                    <% } %>
+
+                    <% if (achievements.length) { %>
+                        <article id="achievements" class="card-box achievements-pane achievements-single-card">
+                            <p class="section-kicker">Achievements</p>
+                            <h3><%= user.achievementsSectionTitle || "Highlights so far" %></h3>
+                            <ul class="achievements-list" id="achievementsList">
+                                <% achievements.forEach((point) => { %><li><%= point %></li><% }) %>
+                            </ul>
+                            <button type="button" class="read-more-btn" id="achievementsReadMoreBtn" aria-expanded="false">Read more</button>
+                        </article>
+                    <% } %>
+                </section>
+            <% } %>
+
+            <section id="contact" class="section-block">
+                <p class="section-kicker">Contact</p>
+                <h2 class="section-title">Let's build something great</h2>
+                <div class="contact-social-grid <%= hasSocialData ? 'has-both' : 'single-pane' %>">
+                    <article class="card-box contact-only-card">
+                        <div class="contact-actions">
+                            <a class="btn primary" href="mailto:<%= user.businessEmail %>">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span>Email Me</span>
+                            </a>
+                            <a class="btn secondary" href="tel:<%= user.phone %>">
+                                <i class="fa-solid fa-phone"></i>
+                                <span>Call Me</span>
+                            </a>
+                        </div>
+                    </article>
+
+                    <% if (hasSocialData) { %>
+                        <article class="card-box social-only-card">
+                            <h3>Social Links</h3>
+                            <div class="social-list">
+                                <% if (user.youtube) { %>
+                                    <a class="social-card" href="<%= user.youtube %>" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i><span>YouTube</span></a>
+                                <% } %>
+                                <% if (user.instagram) { %>
+                                    <a class="social-card" href="<%= user.instagram %>" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                                <% } %>
+                                <% if (user.x) { %>
+                                    <a class="social-card" href="<%= user.x %>" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-square-x-twitter"></i><span>X</span></a>
+                                <% } %>
+                                <% if (user.linkedin) { %>
+                                    <a class="social-card" href="<%= user.linkedin %>" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin"></i><span>LinkedIn</span></a>
+                                <% } %>
+                                <% if (user.facebook) { %>
+                                    <a class="social-card" href="<%= user.facebook %>" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook"></i><span>Facebook</span></a>
+                                <% } %>
+                                <% if (user.pinterest) { %>
+                                    <a class="social-card" href="<%= user.pinterest %>" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-pinterest"></i><span>Pinterest</span></a>
+                                <% } %>
+                                <% customSocialLinks.forEach((link) => { %>
+                                    <a class="social-card" href="<%= link.url %>" target="_blank" rel="noopener noreferrer"><i class="fa-light fa-globe"></i><span><%= link.title %></span></a>
+                                <% }) %>
+                            </div>
+                        </article>
+                    <% } %>
+                </div>
             </section>
         </main>
 
         <footer class="footer">
-            <div class="footer-title">Powered By 25CW</div>
+            <div class="footer-title">Powered by XevoNet</div>
         </footer>
     </div>
+
+    <script>
+        (function () {
+            const CARD_PAGE_URL = <%- JSON.stringify(cardUrl) %>;
+            const CARD_OWNER_NAME = <%- JSON.stringify(user.name) %>;
+
+            function loadQrLibrary(callback) {
+                if (typeof QRCode !== "undefined") {
+                    callback();
+                    return;
+                }
+                const s = document.createElement("script");
+                s.src = "https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js";
+                s.onload = callback;
+                s.onerror = function () {
+                    const img = document.getElementById("qrImage");
+                    if (img) {
+                        img.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(CARD_PAGE_URL);
+                        img.onload = function () {
+                            try {
+                                const c = document.createElement("canvas");
+                                const ctx = c.getContext("2d");
+                                c.width = img.naturalWidth;
+                                c.height = img.naturalHeight;
+                                ctx.drawImage(img, 0, 0);
+                                window.__qrPngDataUrl = c.toDataURL("image/png");
+                            } catch (e) {
+                                window.__qrPngDataUrl = "";
+                            }
+                        };
+                    }
+                };
+                document.head.appendChild(s);
+            }
+
+            loadQrLibrary(function () {
+                const img = document.getElementById("qrImage");
+                if (!img || typeof QRCode === "undefined") return;
+                QRCode.toDataURL(CARD_PAGE_URL, { width: 200, margin: 2, errorCorrectionLevel: "M" }, function (err, dataUrl) {
+                    if (err || !dataUrl) return;
+                    img.src = dataUrl;
+                    window.__qrPngDataUrl = dataUrl;
+                });
+            });
+
+            const qrDownload = document.getElementById("qrDownload");
+            const qrShare = document.getElementById("qrShare");
+            if (qrDownload) {
+                qrDownload.addEventListener("click", function () {
+                    const dataUrl = window.__qrPngDataUrl;
+                    if (!dataUrl) return;
+                    const a = document.createElement("a");
+                    a.href = dataUrl;
+                    a.download = "digital-card-qr.png";
+                    a.rel = "noopener";
+                    a.click();
+                });
+            }
+            if (qrShare) {
+                qrShare.addEventListener("click", async function () {
+                    const url = CARD_PAGE_URL;
+                    const shareText = "Digital visiting card — " + CARD_OWNER_NAME;
+                    if (navigator.share) {
+                        try {
+                            const dataUrl = window.__qrPngDataUrl;
+                            if (dataUrl && navigator.canShare) {
+                                const res = await fetch(dataUrl);
+                                const blob = await res.blob();
+                                const file = new File([blob], "digital-card-qr.png", { type: "image/png" });
+                                if (navigator.canShare({ files: [file] })) {
+                                    await navigator.share({ title: CARD_OWNER_NAME, text: shareText, url, files: [file] });
+                                    return;
+                                }
+                            }
+                            await navigator.share({ title: CARD_OWNER_NAME, text: shareText, url });
+                        } catch (e) {
+                            if (e && e.name !== "AbortError") {
+                                try {
+                                    await navigator.clipboard.writeText(url);
+                                    alert("Card link copied to clipboard.");
+                                } catch (err2) {
+                                    prompt("Copy this link:", url);
+                                }
+                            }
+                        }
+                    } else {
+                        try {
+                            await navigator.clipboard.writeText(url);
+                            alert("Card link copied to clipboard.");
+                        } catch (e) {
+                            prompt("Copy this link:", url);
+                        }
+                    }
+                });
+            }
+
+            const storageKey = "ecard-theme";
+            const body = document.body;
+            const themeToggle = document.getElementById("themeToggle");
+            const icon = themeToggle.querySelector("i");
+            const label = themeToggle.querySelector("span");
+
+            function applyTheme(theme) {
+                body.setAttribute("data-theme", theme);
+
+                if (theme === "dark") {
+                    icon.className = "fa-solid fa-sun";
+                    label.textContent = "Light";
+                } else {
+                    icon.className = "fa-solid fa-moon";
+                    label.textContent = "Dark";
+                }
+            }
+
+            const savedTheme = localStorage.getItem(storageKey);
+            const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            const initialTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
+
+            applyTheme(initialTheme);
+
+            themeToggle.addEventListener("click", function () {
+                const nextTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+                applyTheme(nextTheme);
+                localStorage.setItem(storageKey, nextTheme);
+            });
+
+            const servicesTabs = document.getElementById("servicesTabs");
+            const servicesPanels = document.getElementById("servicesPanels");
+            if (servicesTabs && servicesPanels) {
+                const tabButtons = Array.from(servicesTabs.querySelectorAll(".service-tab-btn"));
+                const panels = Array.from(servicesPanels.querySelectorAll(".service-tab-panel"));
+
+                tabButtons.forEach((button) => {
+                    button.addEventListener("click", function () {
+                        const target = button.getAttribute("data-tab");
+                        tabButtons.forEach((btn) => btn.classList.remove("active"));
+                        panels.forEach((panel) => panel.classList.remove("active"));
+                        button.classList.add("active");
+                        const activePanel = servicesPanels.querySelector(`[data-panel="${target}"]`);
+                        if (activePanel) activePanel.classList.add("active");
+                    });
+                });
+            }
+
+            function setupReadMore(buttonId, targetId, expandedClass, needsContainerToggle) {
+                const button = document.getElementById(buttonId);
+                const target = document.getElementById(targetId);
+                if (!button || !target) return;
+                const container = target.closest(".achievements-single-card");
+                const hasOverflow = target.scrollHeight > target.clientHeight + 4;
+                if (!hasOverflow) {
+                    button.style.display = "none";
+                    return;
+                }
+                button.addEventListener("click", function () {
+                    const isExpanded = target.classList.toggle(expandedClass);
+                    if (needsContainerToggle && container) {
+                        container.classList.toggle("expanded", isExpanded);
+                    }
+                    button.setAttribute("aria-expanded", String(isExpanded));
+                    button.textContent = isExpanded ? "Show less" : "Read more";
+                });
+            }
+
+            setupReadMore("promoReadMoreBtn", "promoCopy", "expanded", false);
+            setupReadMore("introReadMoreBtn", "introCopy", "expanded", false);
+            setupReadMore("achievementsReadMoreBtn", "achievementsList", "expanded", true);
+        })();
+    </script>
 </body>
 </html>

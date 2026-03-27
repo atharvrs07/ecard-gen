@@ -9,31 +9,70 @@
 <body>
     <div class="wrapper">
         <div class="form-title">
-            <h1>Build your ECard NOW!</h1>
+            <h1>Build your premium eCard</h1>
+            <p>Everything below is editable and reflected on your card.</p>
         </div>
 
-        <div class="form-container">
-            <form id="userForm">
+        <div class="builder-layout">
+            <div class="form-container">
+                <form id="userForm">
+                <h2 class="form-section-title">Identity</h2>
                 <input type="text" name="name" placeholder="Full Name" required>
                 <input type="text" name="occupation" placeholder="Occupation" required>
                 <textarea name="description" placeholder="Describe more about the work you do..." required></textarea>
+                <input type="url" name="profile-image" placeholder="Profile Picture URL (Optional)">
+                <label class="file-input-label">Or upload Profile Picture (Optional)</label>
+                <input type="file" name="profile-image-file" accept="image/*">
+                <input type="text" name="brand-name" placeholder="Top Navbar Brand Name (Optional)">
 
-                <input type="text" name="achievement1" placeholder="Achievement 1" required>
-                <input type="text" name="achievement2" placeholder="Achievement 2" required>
-                <input type="text" name="achievement3" placeholder="Achievement 3" required>
+                <h2 class="form-section-title">Top Hero Text</h2>
+                <input type="text" name="now-kicker" placeholder="Now Shipping Label (Optional)">
+                <input type="text" name="now-title" placeholder="Now Shipping Title (Optional)">
+                <textarea name="now-description" placeholder="Now Shipping Description (Optional)"></textarea>
+                <input type="text" name="hero-role-label" placeholder="Role Label above Name (Optional)">
+                <input type="text" name="hero-tagline" placeholder="Hero Tagline (Optional)">
 
+                <h2 class="form-section-title">Company</h2>
+                <input type="text" name="company-section-title" placeholder="Company Section Title (Optional)">
+                <input type="text" name="company-name" placeholder="Company Name (Optional)">
+                <textarea name="company-description" placeholder="What your company is about (Optional)"></textarea>
+                <input type="url" name="company-website" placeholder="Company Website Link (Optional)">
+                <input type="url" name="company-logo" placeholder="Company Logo URL (Optional)">
+                <label class="file-input-label">Or upload Company Logo (Optional)</label>
+                <input type="file" name="company-logo-file" accept="image/*">
+
+                <h2 class="form-section-title">Services</h2>
+                <div id="servicesFields"></div>
+                <button type="button" id="addServiceBtn" class="add-service-btn">+ Add Service</button>
+
+                <h2 class="form-section-title">Achievements</h2>
+                <input type="text" name="achievements-section-title" placeholder="Achievements Section Title (Optional)">
+                <textarea name="achievements-list" placeholder="Achievements bullet list (one point per line) (Optional)"></textarea>
+
+                <h2 class="form-section-title">Business Contact</h2>
                 <input type="email" name="bus-email" placeholder="Your Business E-Mail ID" required>
                 <input type="tel" name="phone" placeholder="Your Business Phone No." required>
                 <input type="email" name="per-email" placeholder="Your Personal Email (This won't be displayed on the card)" required>
 
+                <h2 class="form-section-title">Social Links</h2>
                 <input type="text" name="youtube" placeholder="YouTube Link">
                 <input type="text" name="instagram" placeholder="Instagram Link">
                 <input type="text" name="x" placeholder="X (Twitter) Link">
                 <input type="text" name="linkedin" placeholder="LinkedIn Profile Link">
                 <input type="text" name="facebook" placeholder="Facebook Profile Link">
+                <input type="text" name="pinterest" placeholder="Pinterest Link">
+                <div id="customSocialFields"></div>
+                <button type="button" id="addCustomSocialBtn" class="add-service-btn">+ Add Custom Social Link</button>
 
                 <button type="submit">Pay & Create My Card</button>
-            </form>
+                </form>
+            </div>
+
+            <aside class="preview-container">
+                <h2 class="form-section-title">Live Card Preview</h2>
+                <p class="preview-note">Updates as you type and pick images.</p>
+                <iframe id="cardPreviewFrame" title="Live card preview"></iframe>
+            </aside>
         </div>
     </div>
 
