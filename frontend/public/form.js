@@ -72,17 +72,11 @@ const previewFrameDoc = `
       document.getElementById("previewRoot").innerHTML =
         '<header class="topbar"><div class="topbar-inner"><p class="brand">' + esc(data.brandName || name) + '</p></div></header>' +
         '<main class="wrapper">' +
-          '<section class="hero-panel">' +
-            '<article class="card-box promo-card">' +
-              '<p class="section-kicker">' + esc(data.nowShippingKicker || "Now shipping") + '</p>' +
-              '<h2>' + esc(data.nowShippingTitle || "Professional Presence") + '</h2>' +
-              '<p class="promo-copy expanded">' + esc(data.nowShippingDescription || "Create trust at first glance with one premium page that highlights what you do best and how to reach you.") + '</p>' +
-            '</article>' +
+          '<section class="hero-panel" style="grid-template-columns:1fr;">' +
             '<article class="hero-content">' +
               '<div class="intro-head"><div>' + avatar + '</div><div class="intro-head-copy">' +
-                '<p class="hero-label">' + esc(data.heroRoleLabel || data.occupation || "Professional") + '</p>' +
                 '<h1 class="name">' + esc(name) + '</h1>' +
-                '<p class="hero-tagline">' + esc(data.heroTagline || data.occupation || "Helping brands grow with clarity and speed") + '</p>' +
+                '<p class="hero-tagline">' + esc(data.occupation || "Professional") + '</p>' +
               '</div></div>' +
               '<p class="hero-description intro-copy expanded">' + esc(data.heroDescription || data.description || "") + '</p>' +
             '</article>' +
@@ -224,11 +218,6 @@ async function buildUserData() {
         occupation: formData.get("occupation"),
         description: formData.get("description"),
         brandName: formData.get("brand-name"),
-        nowShippingKicker: formData.get("now-kicker"),
-        nowShippingTitle: formData.get("now-title"),
-        nowShippingDescription: formData.get("now-description"),
-        heroRoleLabel: formData.get("hero-role-label"),
-        heroTagline: formData.get("hero-tagline"),
         heroDescription: formData.get("description"),
         companySectionTitle: formData.get("company-section-title"),
         achievementsSectionTitle: formData.get("achievements-section-title"),

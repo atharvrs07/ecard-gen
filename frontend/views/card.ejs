@@ -79,27 +79,19 @@
         </header>
 
         <main class="wrapper">
-            <section class="hero-panel">
-                <article class="card-box promo-card">
-                    <p class="section-kicker"><%= user.nowShippingKicker || "Now shipping" %></p>
-                    <h2><%= user.nowShippingTitle || "Professional Presence" %></h2>
-                    <p class="promo-copy" id="promoCopy"><%= user.nowShippingDescription || "Create trust at first glance with one premium page that highlights what you do best and how to reach you. Add your services, company details, achievements, contact buttons, and social proof in one place for quick sharing." %></p>
-                    <button type="button" class="read-more-btn" id="promoReadMoreBtn" aria-expanded="false">Read more</button>
-                </article>
-
+            <section class="hero-panel" style="grid-template-columns: 1fr;">
                 <article class="hero-content">
                     <div class="intro-head">
                         <% if (user.profileImage) { %>
-                            <img class="profile-image" src="<%= user.profileImage %>" alt="<%= user.name %> profile picture">
+                            <img class="profile-image" src="<%= user.profileImage %>" alt="<%= user.name %> profile picture" style="width:72px;height:72px;">
                         <% } else { %>
-                            <div class="avatar-badge" aria-hidden="true">
+                            <div class="avatar-badge" aria-hidden="true" style="width:72px;height:72px;">
                                 <%= user.name ? user.name.trim().charAt(0).toUpperCase() : "U" %>
                             </div>
                         <% } %>
                         <div class="intro-head-copy">
-                            <p class="hero-label"><%= user.heroRoleLabel || user.occupation || "Professional" %></p>
                             <h1 class="name"><%= user.name %></h1>
-                            <p class="hero-tagline"><%= user.heroTagline || user.occupation || "Helping brands grow with clarity and speed" %></p>
+                            <p class="hero-tagline"><%= user.occupation || "Professional" %></p>
                         </div>
                     </div>
                     <p class="hero-description intro-copy" id="introCopy"><%= user.heroDescription || user.description %></p>
@@ -394,7 +386,6 @@
                 });
             }
 
-            setupReadMore("promoReadMoreBtn", "promoCopy", "expanded", false);
             setupReadMore("introReadMoreBtn", "introCopy", "expanded", false);
             setupReadMore("achievementsReadMoreBtn", "achievementsList", "expanded", true);
         })();
