@@ -491,4 +491,20 @@ body[data-theme="dark"] {
     .social-card {
         width: 100%;
     }
+
+    .contact-social-grid,
+    .contact-only-card,
+    .social-only-card {
+        overflow-x: hidden;
+    }
+
+    .contact-only-card {
+        padding: 12px;
+    }
+
+    .contact-only-card .btn {
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
 }
