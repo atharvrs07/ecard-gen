@@ -69,8 +69,24 @@ const previewFrameDoc = `
         ? '<ul class="achievements-list">' + achievements.map((a) => '<li>' + esc(a) + '</li>').join("") + '</ul>'
         : '<p class="muted-tip">Add achievements to preview this section.</p>';
 
+      const introPlain = String(data.heroDescription || data.description || "").trim();
+      const introBlock = introPlain
+        ? '<p class="hero-description intro-copy expanded">' + esc(introPlain) + '</p>'
+        : "";
+
+      const topbar =
+        '<header class="topbar"><div class="topbar-inner topbar-inner--nav-only">' +
+        '<nav class="top-nav">' +
+        '<a href="#" onclick="return false;">Company</a>' +
+        (services.length ? '<a href="#" onclick="return false;">Services</a>' : '') +
+        '<a href="#" onclick="return false;">Achievements</a>' +
+        '<a href="#" onclick="return false;">Contact</a>' +
+        '</nav>' +
+        '<button type="button" class="theme-toggle" disabled aria-hidden="true">' +
+        '<i class="fa-solid fa-moon"></i><span>Dark</span></button></div></header>';
+
       document.getElementById("previewRoot").innerHTML =
-        '<header class="topbar"><div class="topbar-inner"><p class="brand">' + esc(data.brandName || name) + '</p></div></header>' +
+        topbar +
         '<main class="wrapper">' +
           '<section class="hero-panel" style="grid-template-columns:1fr;">' +
             '<article class="hero-content">' +
@@ -78,7 +94,7 @@ const previewFrameDoc = `
                 '<h1 class="name">' + esc(name) + '</h1>' +
                 '<p class="hero-tagline">' + esc(data.occupation || "Professional") + '</p>' +
               '</div></div>' +
-              '<p class="hero-description intro-copy expanded">' + esc(data.heroDescription || data.description || "") + '</p>' +
+              introBlock +
             '</article>' +
           '</section>' +
           (services.length ? '<section class="section-block">' +
@@ -216,9 +232,9 @@ async function buildUserData() {
     const userData = {
         name: formData.get("name"),
         occupation: formData.get("occupation"),
-        description: formData.get("description"),
-        brandName: formData.get("brand-name"),
-        heroDescription: formData.get("description"),
+        description: (formData.get("description") || "").trim(),
+        brandName: "",
+        heroDescription: (formData.get("description") || "").trim(),
         companySectionTitle: formData.get("company-section-title"),
         achievementsSectionTitle: formData.get("achievements-section-title"),
         achievementsList: formData.get("achievements-list"),

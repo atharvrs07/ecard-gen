@@ -9,6 +9,8 @@
 </head>
 <body>
     <%
+        const introText = (user.heroDescription || user.description || "").trim();
+        const hasIntro = introText.length > 0;
         const services = [];
         for (let i = 1; i <= 10; i++) {
             const title = user[`service${i}Title`];
@@ -63,8 +65,7 @@
         </section>
 
         <header class="topbar">
-            <div class="topbar-inner">
-                <p class="brand"><%= user.brandName || user.name %></p>
+            <div class="topbar-inner topbar-inner--nav-only">
                 <nav class="top-nav">
                     <a href="#company">Company</a>
                     <% if (services.length) { %><a href="#services">Services</a><% } %>
@@ -94,8 +95,10 @@
                             <p class="hero-tagline"><%= user.occupation || "Professional" %></p>
                         </div>
                     </div>
-                    <p class="hero-description intro-copy" id="introCopy"><%= user.heroDescription || user.description %></p>
+                    <% if (hasIntro) { %>
+                    <p class="hero-description intro-copy" id="introCopy"><%= introText %></p>
                     <button type="button" class="read-more-btn" id="introReadMoreBtn" aria-expanded="false">Read more</button>
+                    <% } %>
                     <div class="hero-actions">
                         <% if (services.length) { %><a class="btn primary" href="#services">View Services</a><% } %>
                         <a class="btn secondary" href="#contact">Let's Connect</a>

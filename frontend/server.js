@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -7,16 +8,16 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const Card = require("./cardModel");
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
 app.use(cors());
 app.use(express.json({ limit: "25mb" }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
-app.set("views", "./views");
+app.set("views", path.join(__dirname, "views"));
 
 const PORT = process.env.PORT || 3000;
 const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
@@ -95,6 +96,102 @@ function getBaseUrl(req) {
     return configuredBaseUrl || `http://localhost:${PORT}`;
 }
 
+function getDashboardUrl(req) {
+    const fromEnv = (process.env.DASHBOARD_URL || "").trim();
+    if (fromEnv) return fromEnv;
+    return `${getBaseUrl(req)}/dashboard.html`;
+}
+
+/** Static demo card for marketing (not stored in the database). Served at /demo/card so /card/:slug stays available. */
+const DEMO_EXAMPLE_CARD = {
+    name: "Priya Sharma",
+    slug: "demo",
+    occupation: "Independent consultant",
+    description:
+        "I help small businesses clarify their offer and ship a polished digital presence — from story to launch.",
+    heroDescription: "",
+    brandName: "",
+    profileImage: "",
+    companySectionTitle: "Studio",
+    companyName: "Northline Studio",
+    companyDescription: "We design memorable brands and high-converting landing pages.",
+    companyWebsite: "https://example.com",
+    companyLogo: "",
+    service1Title: "Brand strategy",
+    service1Description: "Positioning, messaging, and visual direction that fits your market.",
+    service1Link: "https://example.com",
+    service1Image: "",
+    service2Title: "Web presence",
+    service2Description: "Fast, accessible sites that reflect your work and drive leads.",
+    service2Link: "",
+    service2Image: "",
+    service3Title: "",
+    service3Description: "",
+    service3Link: "",
+    service3Image: "",
+    service4Title: "",
+    service4Description: "",
+    service4Link: "",
+    service4Image: "",
+    service5Title: "",
+    service5Description: "",
+    service5Link: "",
+    service5Image: "",
+    service6Title: "",
+    service6Description: "",
+    service6Link: "",
+    service6Image: "",
+    service7Title: "",
+    service7Description: "",
+    service7Link: "",
+    service7Image: "",
+    service8Title: "",
+    service8Description: "",
+    service8Link: "",
+    service8Image: "",
+    service9Title: "",
+    service9Description: "",
+    service9Link: "",
+    service9Image: "",
+    service10Title: "",
+    service10Description: "",
+    service10Link: "",
+    service10Image: "",
+    achievementsSectionTitle: "Highlights",
+    achievementsList: "50+ client projects\nFeatured in regional business press\nSpeaker at Design Week 2025",
+    achievement1: "",
+    achievement2: "",
+    achievement3: "",
+    businessEmail: "hello@example.com",
+    phone: "+919000000000",
+    personalEmail: "",
+    youtube: "",
+    instagram: "",
+    x: "",
+    linkedin: "https://www.linkedin.com",
+    facebook: "",
+    pinterest: "",
+    customSocial1Title: "",
+    customSocial1Url: "",
+    customSocial2Title: "",
+    customSocial2Url: "",
+    customSocial3Title: "",
+    customSocial3Url: "",
+    nowShippingKicker: "",
+    nowShippingTitle: "",
+    nowShippingDescription: "",
+    heroRoleLabel: "",
+    heroTagline: "",
+    servicesSectionTitle: "",
+    servicesSectionSubtitle: "",
+    contactSectionTitle: "",
+    contactSectionSubtitle: "",
+    contactEmailLabel: "",
+    contactPhoneLabel: "",
+    socialSectionTitle: "",
+    socialSectionSubtitle: ""
+};
+
 // 🔥 MongoDB
 async function connectDB() {
     try {
@@ -105,11 +202,6 @@ async function connectDB() {
         process.exit(1);
     }
 }
-
-// 🧪 Test route
-app.get("/", (req, res) => {
-    res.send("Server is running successfully!");
-});
 
 // 💳 Create Razorpay Order
 app.post("/create-order", async (req, res) => {
@@ -222,14 +314,14 @@ app.post("/verify-payment", async (req, res) => {
             name: userData.name,
             slug,
             occupation: userData.occupation,
-            description: userData.description,
-            brandName: userData.brandName,
+            description: (userData.description || "").trim(),
+            brandName: (userData.brandName || "").trim(),
             nowShippingKicker: userData.nowShippingKicker,
             nowShippingTitle: userData.nowShippingTitle,
             nowShippingDescription: userData.nowShippingDescription,
             heroRoleLabel: userData.heroRoleLabel,
             heroTagline: userData.heroTagline,
-            heroDescription: userData.heroDescription,
+            heroDescription: (userData.heroDescription || "").trim(),
             companySectionTitle: userData.companySectionTitle,
             servicesSectionTitle: userData.servicesSectionTitle,
             servicesSectionSubtitle: userData.servicesSectionSubtitle,
@@ -308,6 +400,7 @@ app.post("/verify-payment", async (req, res) => {
 
         const baseUrl = getBaseUrl(req);
         const cardLink = `${baseUrl}/card/${slug}`;
+        const dashboardLink = getDashboardUrl(req);
 
         // 📧 Send Email
         await transporter.sendMail({
@@ -318,8 +411,10 @@ app.post("/verify-payment", async (req, res) => {
                 <h2>Your E-Card is Ready!</h2>
                 <p>Hello ${userData.name},</p>
                 <p>Your payment was successful.</p>
-                <p>Click below to view your card:</p>
-                <p><a href="${cardLink}" target="_blank">${cardLink}</a></p>
+                <p>View your digital card:</p>
+                <p><a href="${cardLink}" target="_blank" rel="noopener noreferrer">${cardLink}</a></p>
+                <p>Open your dashboard to review analytics and update your card:</p>
+                <p><a href="${dashboardLink}" target="_blank" rel="noopener noreferrer">${dashboardLink}</a></p>
                 <br>
                 <p>Thanks for using Xevonet.</p>
             `
@@ -338,6 +433,12 @@ app.post("/verify-payment", async (req, res) => {
             message: "Failed to complete process."
         });
     }
+});
+
+// 🎯 Demo card (marketing; does not use /card/:slug so real cards can use any slug)
+app.get("/demo/card", (req, res) => {
+    const cardUrl = `${getBaseUrl(req)}/demo/card`;
+    res.render("card", { user: DEMO_EXAMPLE_CARD, cardUrl });
 });
 
 // 🎯 Card page

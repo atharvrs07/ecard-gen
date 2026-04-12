@@ -124,10 +124,14 @@ body[data-theme="dark"] {
     gap: 18px;
 }
 
-.brand {
-    font-family: 'Poppins', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
+.topbar-inner--nav-only {
+    justify-content: space-between;
+}
+
+.topbar-inner--nav-only .top-nav {
+    flex: 1;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .top-nav {
@@ -145,6 +149,11 @@ body[data-theme="dark"] {
 
 .top-nav a:hover {
     color: var(--accent);
+}
+
+.theme-toggle:disabled {
+    opacity: 0.55;
+    cursor: default;
 }
 
 .theme-toggle {
