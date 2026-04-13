@@ -21,7 +21,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 const PORT = Number(process.env.PORT || 3000);
 const NODE_ENV = (process.env.NODE_ENV || "development").trim();
-const DEFAULT_BASE_URL = NODE_ENV === "production" ? "https://ecard.xevonet.com" : `http://localhost:${PORT}`;
+const DEFAULT_BASE_URL = NODE_ENV === "production" ? "https://card.xevonet.com" : `http://localhost:${PORT}`;
 const BASE_URL = (process.env.BASE_URL || DEFAULT_BASE_URL).trim();
 const CARD_PRICE_INR = Number(process.env.CARD_PRICE_INR || 499);
 const CANONICAL_HOST = (process.env.CANONICAL_HOST || "").trim().toLowerCase();
