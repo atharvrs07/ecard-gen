@@ -1,275 +1,78 @@
-/* Reset + base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:root {
-  --bg-gradient: linear-gradient(135deg, #f8f4ff, #eef9ff);
-  --card-bg: rgba(255, 255, 255, 0.92);
-  --accent: #8e4dff;
-  --accent-2: #2dbde9;
-  --accent-soft: rgba(142, 77, 255, 0.18);
-  --text-main: #251b40;
-  --text-muted: #6f6192;
-  --error: #ef4444;
-  --radius-lg: 18px;
-  --shadow-soft: 0 24px 60px rgba(84, 57, 143, 0.15);
-  --transition-fast: 0.18s ease-out;
-  --field-bg: rgba(255, 255, 255, 0.9);
-}
-
-/* Page layout */
 body {
+  background: #eef2f7;
   min-height: 100vh;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "Segoe UI", Roboto, sans-serif;
-  color: var(--text-main);
-  background: var(--bg-gradient);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
 }
 
-/* Wrapper */
-.wrapper {
-  width: 100%;
-  max-width: 1360px;
+.form-page {
+  padding-bottom: 2rem;
 }
 
-/* Title */
-.form-title {
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.form-title h1 {
-  font-size: clamp(1.6rem, 2vw + 1rem, 2.2rem);
-  letter-spacing: 0.03em;
+.form-page h1 {
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-main);
 }
 
-.form-title p {
-  color: var(--text-muted);
-  margin-top: 6px;
-}
-
-/* Form container */
-.form-container {
-  background: var(--card-bg);
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(177, 159, 223, 0.36);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  padding: 24px 22px;
-}
-
-.builder-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 20px;
-  align-items: start;
-}
-
-/* Form layout */
-#userForm {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.form-section-title {
-  margin-top: 8px;
-  font-family: "Poppins", sans-serif;
-  font-size: 15px;
-  color: var(--text-main);
-}
-
-.file-input-label {
-  font-size: 0.84rem;
-  color: var(--text-muted);
-  margin-top: -4px;
-}
-
-.service-field-card {
-  border: 1px solid rgba(177, 159, 223, 0.32);
-  border-radius: 12px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.72);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.service-field-title {
-  font-size: 0.9rem;
-  color: var(--text-main);
-  font-weight: 600;
-}
-
-.add-service-btn {
-  border: 1px solid rgba(177, 159, 223, 0.45);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--accent);
-  font-weight: 600;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-/* Inputs + textarea */
-#userForm input,
-#userForm textarea {
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid rgba(177, 159, 223, 0.32);
-  background: var(--field-bg);
-  color: var(--text-main);
-  font-size: 0.95rem;
-  padding: 11px 12px;
-  outline: none;
-  transition: border-color var(--transition-fast),
-    box-shadow var(--transition-fast),
-    background-color var(--transition-fast),
-    transform var(--transition-fast);
-}
-
-#userForm input[type="file"] {
-  padding: 8px;
-  border-style: dashed;
-}
-
-#userForm input::placeholder,
-#userForm textarea::placeholder {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-/* Textarea styling */
-#userForm textarea {
-  min-height: 90px;
-  resize: vertical;
-  line-height: 1.4;
-}
-
-/* Focus states */
-#userForm input:focus,
-#userForm textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent-soft);
-  background-color: #fff;
-  transform: translateY(-1px);
-}
-
-/* Grouping ideas (optional but nice) */
-#userForm input[name="achievement1"],
-#userForm input[name="achievement2"],
-#userForm input[name="achievement3"] {
-  font-size: 0.92rem;
-}
-
-/* Button */
-#userForm button[type="submit"] {
-  margin-top: 6px;
-  width: 100%;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 11px 16px;
-  cursor: pointer;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  box-shadow: 0 12px 30px rgba(84, 57, 143, 0.24);
-  transition: transform var(--transition-fast),
-    box-shadow var(--transition-fast),
-    filter var(--transition-fast);
-}
-
-#userForm button[type="submit"]:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 40px rgba(84, 57, 143, 0.32);
-  filter: brightness(1.03);
-}
-
-#userForm button[type="submit"]:active {
-  transform: translateY(0);
-  box-shadow: 0 8px 22px rgba(54, 31, 100, 0.45);
-}
-
-/* Small helper text style (if you add any later) */
-.helper-text {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-top: -6px;
-}
-
-.preview-container {
-  background: var(--card-bg);
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(177, 159, 223, 0.36);
-  box-shadow: var(--shadow-soft);
-  padding: 18px;
+.preview-panel {
   position: sticky;
-  top: 18px;
+  top: 1rem;
+  background: #0f1419;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
-.preview-note {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin-bottom: 10px;
+.preview-panel-header {
+  background: #1a2332;
+  color: #aab8cc;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-#cardPreviewFrame {
+.preview-frame-wrap {
+  height: min(78vh, 820px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.preview-frame-wrap iframe {
   width: 100%;
-  height: min(78vh, 880px);
-  border: 1px solid rgba(177, 159, 223, 0.36);
-  border-radius: 14px;
+  height: 1200px;
+  border: none;
+  display: block;
+  transform: scale(0.92);
+  transform-origin: top center;
+}
+
+@media (max-width: 991px) {
+  .preview-panel {
+    position: relative;
+    top: 0;
+    margin-top: 1.5rem;
+  }
+
+  .preview-frame-wrap {
+    height: 65vh;
+  }
+
+  .preview-frame-wrap iframe {
+    transform: scale(1);
+    height: 900px;
+  }
+}
+
+.service-row .btn-remove {
+  margin-top: 1.75rem;
+}
+
+.theme-color-input {
+  width: 3rem;
+  height: 2.375rem;
+  padding: 0.125rem;
+  cursor: pointer;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
   background: #fff;
-}
-
-/* Mobile tweaks */
-@media (max-width: 480px) {
-  body {
-    padding: 18px;
-  }
-
-  .form-container {
-    padding: 20px 18px;
-  }
-
-  #userForm {
-    gap: 12px;
-  }
-}
-
-/* Slightly wider view */
-@media (min-width: 768px) {
-  .form-container {
-    padding: 28px 26px;
-  }
-
-  .form-title {
-    margin-bottom: 22px;
-  }
-}
-
-@media (max-width: 1080px) {
-  .builder-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .preview-container {
-    position: static;
-  }
-
-  #cardPreviewFrame {
-    height: 72vh;
-  }
 }

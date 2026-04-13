@@ -1,74 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/form.css">
-    <title>Form - ECard Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build your vCard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/form.css">
 </head>
-<body>
-    <div class="wrapper">
-        <div class="form-title">
-            <h1>Build your premium eCard</h1>
-            <p>Everything below is editable and reflected on your card.</p>
-        </div>
+<body class="form-page">
+  <nav class="navbar navbar-dark bg-dark mb-3">
+    <a class="navbar-brand" href="/"><i class="fa fa-arrow-left mr-2"></i>Home</a>
+    <span class="navbar-text text-white-50 small">Live preview updates as you type</span>
+  </nav>
 
-        <div class="builder-layout">
-            <div class="form-container">
-                <form id="userForm">
-                <h2 class="form-section-title">Identity</h2>
-                <input type="text" name="name" placeholder="Full Name" required>
-                <input type="text" name="occupation" placeholder="Occupation" required>
-                <textarea name="description" placeholder="Describe the work you do (optional)"></textarea>
-                <input type="url" name="profile-image" placeholder="Profile Picture URL (Optional)">
-                <label class="file-input-label">Or upload Profile Picture (Optional)</label>
-                <input type="file" name="profile-image-file" accept="image/*">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-7">
+        <h1 class="mb-3">Card details</h1>
+        <p class="text-muted small">Fields map to the card template. Only filled fields appear on the published card.</p>
 
-                <h2 class="form-section-title">Company</h2>
-                <input type="text" name="company-section-title" placeholder="Company Section Title (Optional)">
-                <input type="text" name="company-name" placeholder="Company Name (Optional)">
-                <textarea name="company-description" placeholder="What your company is about (Optional)"></textarea>
-                <input type="url" name="company-website" placeholder="Company Website Link (Optional)">
-                <input type="url" name="company-logo" placeholder="Company Logo URL (Optional)">
-                <label class="file-input-label">Or upload Company Logo (Optional)</label>
-                <input type="file" name="company-logo-file" accept="image/*">
-
-                <h2 class="form-section-title">Services</h2>
-                <div id="servicesFields"></div>
-                <button type="button" id="addServiceBtn" class="add-service-btn">+ Add Service</button>
-
-                <h2 class="form-section-title">Achievements</h2>
-                <input type="text" name="achievements-section-title" placeholder="Achievements Section Title (Optional)">
-                <textarea name="achievements-list" placeholder="Achievements bullet list (one point per line) (Optional)"></textarea>
-
-                <h2 class="form-section-title">Business Contact</h2>
-                <input type="email" name="bus-email" placeholder="Your Business E-Mail ID" required>
-                <input type="tel" name="phone" placeholder="Your Business Phone No." required>
-                <input type="email" name="per-email" placeholder="Your Personal Email (This won't be displayed on the card)" required>
-
-                <h2 class="form-section-title">Social Links</h2>
-                <input type="text" name="youtube" placeholder="YouTube Link">
-                <input type="text" name="instagram" placeholder="Instagram Link">
-                <input type="text" name="x" placeholder="X (Twitter) Link">
-                <input type="text" name="linkedin" placeholder="LinkedIn Profile Link">
-                <input type="text" name="facebook" placeholder="Facebook Profile Link">
-                <input type="text" name="pinterest" placeholder="Pinterest Link">
-                <div id="customSocialFields"></div>
-                <button type="button" id="addCustomSocialBtn" class="add-service-btn">+ Add Custom Social Link</button>
-
-                <button type="submit">Pay & Create My Card</button>
-                </form>
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">Identity &amp; theme</div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="firstname">Your name <span class="text-muted">(used for card URL)</span></label>
+              <input type="text" class="form-control" id="firstname" autocomplete="name">
             </div>
-
-            <aside class="preview-container">
-                <h2 class="form-section-title">Live Card Preview</h2>
-                <p class="preview-note">Updates as you type and pick images.</p>
-                <iframe id="cardPreviewFrame" title="Live card preview"></iframe>
-            </aside>
+            <div class="form-row align-items-end">
+              <div class="form-group col-md-6">
+                <label for="theme_color">Theme color</label>
+                <div class="d-flex align-items-center flex-wrap">
+                  <input type="color" class="form-control theme-color-input" id="theme_color" value="#1e90ff" title="Pick a color">
+                  <span class="small text-muted ml-2" id="theme_color_hex">#1e90ff</span>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="designation">Designation</label>
+                <input type="text" class="form-control" id="designation">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="tagline">Tagline</label>
+              <input type="text" class="form-control" id="tagline">
+            </div>
+            <div class="form-group mb-0">
+              <label>Logo</label>
+              <input type="url" class="form-control" id="logo" placeholder="Image URL (https://...)">
+              <div class="custom-file mt-2">
+                <input type="file" class="custom-file-input" id="logo_file" accept="image/*">
+                <label class="custom-file-label" for="logo_file" id="logo_file_label">Or upload from device…</label>
+              </div>
+              <p class="small text-muted mb-0 mt-1" id="logo-upload-hint" hidden>Uploading…</p>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script src="/form.js"></script>
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">Contact</div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="countrycode">Country code</label>
+                <input type="text" class="form-control" id="countrycode" placeholder="+91">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="phonenumber">Phone</label>
+                <input type="text" class="form-control" id="phonenumber" inputmode="numeric">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="whatsupno">WhatsApp <span class="text-muted">(same as phone if blank)</span></label>
+                <input type="text" class="form-control" id="whatsupno">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea class="form-control" id="address" rows="2"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="website_url">Website URL</label>
+              <input type="url" class="form-control" id="website_url">
+            </div>
+            <div class="form-group">
+              <label for="googlemap">Google Maps link</label>
+              <input type="url" class="form-control" id="googlemap">
+            </div>
+            <div class="form-group mb-0">
+              <label for="card_slug">Card URL</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text small" id="card-origin-prefix"></span>
+                </div>
+                <input type="text" class="form-control" id="card_slug" autocomplete="off" spellcheck="false" maxlength="32" placeholder="your-name">
+              </div>
+              <p class="small mb-0 mt-1" id="slug-status-line" aria-live="polite"></p>
+              <div class="small mt-2" id="slug-suggestions-wrap" hidden>
+                <span class="text-muted">Try:</span> <span id="slug-suggestions"></span>
+              </div>
+              <p class="small text-muted mb-0 mt-1">Generated from your name; you can edit. Must be available before publishing.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">About</div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="companyname">Company / brand name</label>
+              <input type="text" class="form-control" id="companyname" autocomplete="organization">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="establishedyear">Year established</label>
+                <input type="text" class="form-control" id="establishedyear">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="otherbusiness">Nature of business</label>
+                <input type="text" class="form-control" id="otherbusiness">
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <label for="about">About text <span class="text-muted">(plain text or HTML)</span></label>
+              <textarea class="form-control" id="about" rows="8"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">Social</div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="facebook">Facebook URL</label>
+                <input type="url" class="form-control" id="facebook">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="twitter">Twitter / X URL</label>
+                <input type="url" class="form-control" id="twitter">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="linkedin">LinkedIn URL</label>
+                <input type="url" class="form-control" id="linkedin">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="youtube">YouTube URL</label>
+                <input type="url" class="form-control" id="youtube" placeholder="Channel or video link">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="instagram">Instagram URL</label>
+              <input type="url" class="form-control" id="instagram">
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label class="mb-0 font-weight-bold small">Custom links</label>
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="add-custom-link"><i class="fa fa-plus"></i> Add link</button>
+            </div>
+            <p class="small text-muted">Add any label and URL (e.g. Portfolio, Calendly, GitHub).</p>
+            <div id="custom-social-rows"></div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">Payments</div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="googlepay">Google Pay number</label>
+                <input type="text" class="form-control" id="googlepay">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="paytm">Paytm number</label>
+                <input type="text" class="form-control" id="paytm">
+              </div>
+            </div>
+            <div class="form-group mb-0">
+              <label for="paytm_QRcode">Paytm QR image URL</label>
+              <input type="url" class="form-control" id="paytm_QRcode">
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">Gallery</div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="gallery_urls">Image URLs <span class="text-muted">(one per line or comma-separated)</span></label>
+              <textarea class="form-control" id="gallery_urls" rows="3" placeholder="https://..."></textarea>
+            </div>
+            <div class="form-group mb-0">
+              <label for="gallery_files">Or upload images</label>
+              <input type="file" class="form-control-file" id="gallery_files" accept="image/*" multiple>
+              <p class="small text-muted mb-0 mt-1" id="gallery-upload-hint" hidden>Uploading…</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3">
+          <div class="card-header font-weight-bold">Videos</div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="video_urls">Video URLs <span class="text-muted">(one per line — YouTube, Vimeo, or hosted .mp4/.webm)</span></label>
+              <textarea class="form-control" id="video_urls" rows="3" placeholder="https://www.youtube.com/watch?v=..."></textarea>
+            </div>
+            <div class="form-group mb-0">
+              <label for="video_files">Or upload video files</label>
+              <input type="file" class="form-control-file" id="video_files" accept="video/*,.mp4,.webm,.mov,.mkv" multiple>
+              <p class="small text-muted mb-0 mt-1">Max ~100 MB per file. Uses same storage as your card.</p>
+              <p class="small text-muted mb-0 mt-1" id="video-upload-hint" hidden>Uploading…</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">Services</span>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="add-service"><i class="fa fa-plus"></i> Add service</button>
+          </div>
+          <div class="card-body">
+            <div id="services-rows"></div>
+          </div>
+        </div>
+
+        <div class="card mb-5 border-primary">
+          <div class="card-body">
+            <p class="small text-muted mb-2">Publishing uses Razorpay checkout. After payment succeeds, your card is saved and you are taken to your shareable link.</p>
+            <p class="mb-2"><strong id="publish-price-label">—</strong></p>
+            <p id="publish-config-warn" class="small text-warning" hidden>Server keys are not configured. Set <code>RAZORPAY_KEY_ID</code> and <code>RAZORPAY_KEY_SECRET</code> (and optional <code>CARD_PRICE_PAISE</code>).</p>
+            <button type="button" class="btn btn-primary btn-lg" id="btn-pay-publish"><i class="fa fa-lock mr-1"></i>Pay &amp; publish card</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="preview-panel">
+          <div class="preview-panel-header">Live preview</div>
+          <div class="preview-frame-wrap">
+            <iframe id="preview-frame" src="/preview?preview=1" title="Card preview"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="/form.js"></script>
 </body>
 </html>
